@@ -34,7 +34,7 @@ const EditTaskForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${import.meta.env.VITE_BASE_URL}/editTask/${taskId}`, formData);
+      await axios.put(`${import.meta.env.VITE_BASE_URL}/task/editTask/${taskId}`, formData);
       navigate(-1); 
     } catch (error) {
       console.error("Error updating task:", error);
