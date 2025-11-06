@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { FiCalendar, FiEdit2, FiTrash2 } from "react-icons/fi";
 import AddDefaultTasksButton from "./AddDefaultTasksButton";
 
-
 const statusStyles = {
   Pending: "bg-gray-200 text-gray-700",
   Ongoing: "bg-blue-100 text-blue-700",
@@ -23,9 +22,10 @@ const ClientTableTask = ({ clientId }) => {
   }, [clientId]);
 
   useEffect(() => {
-  const storedChecked = JSON.parse(localStorage.getItem("checkedTasks")) || {};
-  setCheckedTasks(storedChecked);
-}, []);
+    const storedChecked =
+      JSON.parse(localStorage.getItem("checkedTasks")) || {};
+    setCheckedTasks(storedChecked);
+  }, []);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -54,18 +54,18 @@ const ClientTableTask = ({ clientId }) => {
 
   const handleSuccessDefaultTasks = () => {
     localStorage.setItem(`defaultTasksAdded_${clientId}`, "true");
-    setShowDefaultBtn(false); 
+    setShowDefaultBtn(false);
   };
 
   const handleCheckboxChange = (taskId) => {
-  const updatedChecked = {
-    ...checkedTasks,
-    [taskId]: !checkedTasks[taskId],
-  };
+    const updatedChecked = {
+      ...checkedTasks,
+      [taskId]: !checkedTasks[taskId],
+    };
 
-  setCheckedTasks(updatedChecked);
-  localStorage.setItem("checkedTasks", JSON.stringify(updatedChecked));
-};
+    setCheckedTasks(updatedChecked);
+    localStorage.setItem("checkedTasks", JSON.stringify(updatedChecked));
+  };
 
   return (
     <div className="bg-white text-gray-800 rounded-2xl shadow-md p-6">
@@ -82,7 +82,9 @@ const ClientTableTask = ({ clientId }) => {
 
           <button
             onClick={() => navigate(`/addTask?clientId=${clientId}`)}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 rounded-lg text-[15px] font-medium transition"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 rounded-lg text-[15px] font-medium transition 
+             sm:px-5 sm:py-2 sm:text-[14px] 
+             xs:px-4 xs:py-2 xs:text-[13px] w-full sm:w-auto"
           >
             Add Task
           </button>
@@ -97,9 +99,11 @@ const ClientTableTask = ({ clientId }) => {
               className="flex items-center justify-between py-3 px-2 hover:bg-gray-50 transition"
             >
               {/* Checkbox */}
-              <input type="checkbox" className="mr-3 w-4 h-4"
-              checked={!!checkedTasks[task._id]}
-              onChange={() => handleCheckboxChange(task._id)}
+              <input
+                type="checkbox"
+                className="mr-3 w-4 h-4"
+                checked={!!checkedTasks[task._id]}
+                onChange={() => handleCheckboxChange(task._id)}
               />
 
               {/* Task Name */}

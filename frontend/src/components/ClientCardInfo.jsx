@@ -23,7 +23,7 @@ const ClientCardInfo = ({ clientId }) => {
 
   return (
     <div
-      className="bg-white rounded-2xl shadow-lg p-6 md:p-8 w-full mt-4 mb-6 
+      className="bg-white rounded-2xl shadow-lg p-6 md:p-8 w-full 
                     flex flex-col md:flex-row md:justify-between md:items-center"
     >
       {/* Left Side */}
@@ -38,8 +38,8 @@ const ClientCardInfo = ({ clientId }) => {
         </p>
 
         <p className="text-[15px] text-gray-700">
-          <span className="font-medium text-gray-600">Email</span>
-          <span className="ml-16 text-gray-800">{client.email}</span>
+          <span className="font-medium text-gray-600 block">Email</span>
+          <span className="text-gray-800 break-all">{client.email}</span>
         </p>
 
         <p className="text-[15px] text-gray-700">
@@ -52,17 +52,21 @@ const ClientCardInfo = ({ clientId }) => {
 
       {/* Right Side (Buttons + Capacity) */}
       <div className="flex flex-col items-end gap-4 mt-6 md:mt-0">
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-3 sm:space-y-0 w-full">
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 
-                             rounded-lg text-[15px] font-medium transition"
+               rounded-lg text-[15px] font-medium transition 
+               w-full sm:w-auto sm:px-5 sm:py-2 sm:text-[14px] 
+               xs:px-4 xs:py-2 xs:text-[13px]"
           >
             Add Document
           </button>
 
           <button
             className="border border-blue-400 text-blue-600 px-6 py-2.5 
-                             rounded-lg text-[15px] font-medium hover:bg-blue-50 transition"
+               rounded-lg text-[15px] font-medium hover:bg-blue-50 transition 
+               w-full sm:w-auto sm:px-5 sm:py-2 sm:text-[14px] 
+               xs:px-4 xs:py-2 xs:text-[13px]"
           >
             Set Reminder
           </button>
