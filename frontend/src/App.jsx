@@ -5,17 +5,53 @@ import AddClient from './pages/AddClient';
 import EditTaskForm from './pages/EditTaskForm';
 import AddTaskForm from './pages/AddTaskForm';
 import ClientDetailsPage from './pages/ClientDetailsPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   return (
     <>
     <Routes>
       <Route path='/' element={<LoginPage/>} />
-      <Route path='/dashboard' element={<Dashboard/>} />
-      <Route path='/addClient' element={<AddClient/>} />
-      <Route path='/client/:clientId' element={<ClientDetailsPage/>}/>
-      <Route path="/addTask" element={<AddTaskForm />} />
-      <Route path="/editTask/:taskId" element={<EditTaskForm />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/addClient"
+          element={
+            <ProtectedRoute>
+              <AddClient />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/client/:clientId"
+          element={
+            <ProtectedRoute>
+              <ClientDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/addTask"
+          element={
+            <ProtectedRoute>
+              <AddTaskForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/editTask/:taskId"
+          element={
+            <ProtectedRoute>
+              <EditTaskForm />
+            </ProtectedRoute>
+          }
+        />
     </Routes>
     </>
   )

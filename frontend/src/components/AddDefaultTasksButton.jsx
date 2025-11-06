@@ -25,7 +25,7 @@ const defaultTasks = [
   "Complaint",
 ];
 
-const AddDefaultTasksButton = ({ clientId }) => {
+const AddDefaultTasksButton = ({ clientId , onSuccess }) => {
   const navigate = useNavigate();
 
   const handleAddDefaultTasks = async () => {
@@ -44,6 +44,7 @@ const AddDefaultTasksButton = ({ clientId }) => {
       });
 
       await Promise.all(promises);
+      if(onSuccess) onSuccess();
       navigate(`/client/${clientId}`);
     } catch (error) {
       console.error("Error adding default tasks:", error);

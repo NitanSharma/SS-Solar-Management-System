@@ -9,8 +9,12 @@ const clientRoutes = require('./src/routes/client.routes');
 const taskRoutes = require('./src/routes/task.routes');
 
 connecttoDb();
-
-app.use(cors());
+// app.use(cors({
+//   origin: "https://ss-solar-management-system.vercel.app", 
+//   methods: "GET,POST,PUT,DELETE",
+//   credentials: true
+// }));
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

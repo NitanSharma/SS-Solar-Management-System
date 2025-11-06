@@ -14,7 +14,7 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Ongoing", "Completed"], // you can modify based on UI options
+      enum: ["Pending", "Ongoing", "Completed"], 
       default: "Pending",
     },
     date: {

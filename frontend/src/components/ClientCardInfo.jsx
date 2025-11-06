@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
 
 const ClientCardInfo = ({ clientId }) => {
   const [client, setClient] = useState(null);
@@ -7,7 +7,9 @@ const ClientCardInfo = ({ clientId }) => {
   useEffect(() => {
     const fetchClient = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/client/getClient/${clientId}`);
+        const res = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/client/getClient/${clientId}`
+        );
         setClient(res.data);
       } catch (error) {
         console.error("Error fetching client:", error);
@@ -16,30 +18,62 @@ const ClientCardInfo = ({ clientId }) => {
     fetchClient();
   }, [clientId]);
 
-  if (!client) return <p className="text-gray-300">Loading client details...</p>;
+  if (!client)
+    return <p className="text-gray-400 text-sm">Loading client details...</p>;
 
   return (
-    <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6 flex flex-col md:flex-row md:justify-between">
-      <div>
-        <h2 className="text-2xl font-semibold mb-2">{client.name}</h2>
-        <p> {client.contact}</p>
-        <p> {client.email}</p>
-        <p> {client.address}</p>
-        <p className="mt-2">
-          <strong>Project Status:</strong> {client.projectStatus}
+    <div
+      className="bg-white rounded-2xl shadow-lg p-6 md:p-8 w-full mt-4 mb-6 
+                    flex flex-col md:flex-row md:justify-between md:items-center"
+    >
+      {/* Left Side */}
+      <div className="space-y-2">
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
+          {client.name}
+        </h2>
+
+        <p className="text-[15px] text-gray-700">
+          <span className="font-medium text-gray-600">Contact Number</span>
+          <span className="ml-4 text-gray-800">{client.contact}</span>
         </p>
-        <p>
-          <strong>Capacity:</strong> {client.capacityKW} kWp
+
+        <p className="text-[15px] text-gray-700">
+          <span className="font-medium text-gray-600">Email</span>
+          <span className="ml-16 text-gray-800">{client.email}</span>
+        </p>
+
+        <p className="text-[15px] text-gray-700">
+          <span className="font-medium text-gray-600">Project Status</span>
+          <span className="ml-6 text-blue-600 font-medium">
+            {client.projectStatus}
+          </span>
         </p>
       </div>
 
-      <div className="flex flex-col gap-3 mt-4 md:mt-0">
-        <button className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded transition-all">
-          Add Document
-        </button>
-        <button className="border border-gray-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 transition-all">
-          Set Reminder
-        </button>
+      {/* Right Side (Buttons + Capacity) */}
+      <div className="flex flex-col items-end gap-4 mt-6 md:mt-0">
+        <div className="flex gap-3">
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 
+                             rounded-lg text-[15px] font-medium transition"
+          >
+            Add Document
+          </button>
+
+          <button
+            className="border border-blue-400 text-blue-600 px-6 py-2.5 
+                             rounded-lg text-[15px] font-medium hover:bg-blue-50 transition"
+          >
+            Set Reminder
+          </button>
+        </div>
+
+        <p className="text-[15px] text-gray-700 font-medium flex justify-between w-full md:w-auto">
+          Capacity
+          <span className="ml-4 text-gray-900 font-semibold">
+            {client.capacityKW} kWp
+          </span>
+        </p>
       </div>
     </div>
   );
