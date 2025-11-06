@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserPlus } from "lucide-react";
-
 import { FaPhoneAlt } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 
@@ -39,9 +38,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#0B1623] text-white px-8 py-6">
-      {/* Navbar */}
       <Navbar />
-      {/* Clients Section */}
       <div className="flex justify-between align-center mb-5">
         <h1 className="text-3xl font-semibold">Clients</h1>
         <Link
@@ -59,41 +56,39 @@ const Dashboard = () => {
         ) : (
           data.map((client) => (
             <Link to={`/client/${client._id}`} key={client._id}>
-             <div
-              key={client._id}
-              className="bg-[#12293F] rounded-2xl p-6 shadow-md border border-[#1C314F]/30"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xl font-semibold">{client.name}</h2>
+              <div
+                key={client._id}
+                className="bg-[#12293F] rounded-2xl p-6 shadow-md border border-[#1C314F]/30"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="text-xl font-semibold">{client.name}</h2>
 
-                <span className="text-white font-medium">
-                  {client.capacityKW} kWp
-                </span>
-              </div>
+                  <span className="text-white font-medium">
+                    {client.capacityKW} kWp
+                  </span>
+                </div>
 
-              <div className="flex items-center text-gray-300 mb-2">
-                <FaPhoneAlt className="mr-2 text-gray-400" />
-                <span>{client.contact}</span>
-              </div>
+                <div className="flex items-center text-gray-300 mb-2">
+                  <FaPhoneAlt className="mr-2 text-gray-400" />
+                  <span>{client.contact}</span>
+                </div>
 
-              <div className="flex justify-between text-gray-400 text-sm border-t border-gray-700 pt-2">
-                <span>Project status</span>
-                <span
-                  className={`px-4 py-1 rounded-full text-sm font-medium ${
-                    client.projectStatus === "Ongoing"
-                      ? "bg-blue-500/20 text-blue-400"
-                      : client.projectStatus === "Completed"
-                      ? "bg-sky-500/20 text-sky-400"
-                      : "bg-gray-500/20 text-gray-400"
-                  }`}
-                >
-                  {client.projectStatus}
-                </span>
+                <div className="flex justify-between text-gray-400 text-sm border-t border-gray-700 pt-2">
+                  <span>Project status</span>
+                  <span
+                    className={`px-4 py-1 rounded-full text-sm font-medium ${
+                      client.projectStatus === "Ongoing"
+                        ? "bg-blue-500/20 text-blue-400"
+                        : client.projectStatus === "Completed"
+                        ? "bg-sky-500/20 text-sky-400"
+                        : "bg-gray-500/20 text-gray-400"
+                    }`}
+                  >
+                    {client.projectStatus}
+                  </span>
+                </div>
               </div>
-            </div>
             </Link>
-           
-
           ))
         )}
       </div>

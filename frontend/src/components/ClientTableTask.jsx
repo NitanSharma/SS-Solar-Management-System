@@ -82,7 +82,7 @@ const ClientTableTask = ({ clientId }) => {
 
           <button
             onClick={() => navigate(`/addTask?clientId=${clientId}`)}
-            className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg transition-all"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 rounded-lg text-[15px] font-medium transition"
           >
             Add Task
           </button>
