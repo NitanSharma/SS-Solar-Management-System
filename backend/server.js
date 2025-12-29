@@ -22,10 +22,6 @@ app.use('/admin' , authRoutes);
 app.use('/client' , clientRoutes);
 app.use('/task' , taskRoutes);
 
-app.get("/", (req , res) =>{
-    res.send("Its wording");
-});
-
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
 })
