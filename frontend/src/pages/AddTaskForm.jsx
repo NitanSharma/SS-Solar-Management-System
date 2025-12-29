@@ -30,6 +30,7 @@ const AddTaskForm = () => {
         `${import.meta.env.VITE_BASE_URL}/task/addTask`,
         payload
       );
+      console.log(res.data)
       if (res.status === 201) {
         // onSuccess?.(res.data.task);
         navigate(`/client/${clientId}`);

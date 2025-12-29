@@ -24,14 +24,14 @@ const Navbar = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex items-center space-x-3 justify-end w-full md:w-auto">
+      {/* <div className="flex items-center space-x-3 justify-end w-full md:w-auto">
         <input
           type="text"
           placeholder="Search Client"
           className="bg-[#12293F] px-4 py-2 rounded-lg text-sm focus:outline-none w-full md:w-64 placeholder-gray-400"
         />
-        {/* <FaUserCircle className="hidden md:block text-3xl text-gray-300" /> */}
-      </div>
+        <FaUserCircle className="hidden md:block text-3xl text-gray-300" />
+      </div> */}
     </div>
   )
 }

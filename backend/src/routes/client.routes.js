@@ -1,34 +1,13 @@
-const express = require('express');
-const Client = require('../models/client.model');
-const { body, validationResult } =   require("express-validator");
+const express = require("express");
+const Client = require("../models/client.model");
+const { body } = require("express-validator");
+const clientController = require("../controllers/client.controller");
 
 const router = express.Router();
 
-router.get("/clients", async (req, res) => {
-  try {
-    const clients = await Client.find({});
-    res.status(200).json(clients);
-  } catch (error) {
-    console.error("Error fetching clients:", error);
-    res.status(500).json({ error: "Failed to fetch clients" });
-  }
-});
+router.get("/clients", clientController.getClient);
 
-router.get("/getClient/:clientId", async (req, res) => {
-  try {
-    const { clientId } = req.params;
-    const client = await Client.findById(clientId);
-
-    if (!client) {
-      return res.status(404).json({ error: "Client not found" });
-    }
-
-    res.status(200).json(client);
-  } catch (error) {
-    console.error("Error fetching client by ID:", error);
-    res.status(500).json({ error: "Failed to fetch client" });
-  }
-});
+router.get("/getClient/:clientId", clientController.getClientbyId);
 
 router.post(
   "/addClient",
@@ -53,10 +32,12 @@ router.post(
       }),
 
     body("contact")
-      .isString()
-      .withMessage("Contact must be a string")
       .notEmpty()
-      .withMessage("Contact is required"),
+      .withMessage("Contact is required")
+      .isNumeric()
+      .withMessage("Contact must be a number")
+      .isLength({ min: 10, max: 10 })
+      .withMessage("Contact must be 10 digits"),
 
     body("address")
       .optional()
@@ -71,18 +52,7 @@ router.post(
       .isFloat()
       .withMessage("Capacity must be a number (float)"),
   ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    try {
-      const client = await Client.create(req.body);
-      res.status(201).json(client);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
+  clientController.addClient
 );
 
 module.exports = router;
