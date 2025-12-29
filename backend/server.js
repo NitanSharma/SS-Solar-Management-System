@@ -7,6 +7,7 @@ const connecttoDb = require('./src/db/db')
 const authRoutes = require('./src/routes/auth');
 const clientRoutes = require('./src/routes/client.routes');
 const taskRoutes = require('./src/routes/task.routes');
+const documentRoutes = require("./src/routes/documentRoutes");
 
 connecttoDb();
 // app.use(cors({
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/admin' , authRoutes);
 app.use('/client' , clientRoutes);
 app.use('/task' , taskRoutes);
+app.use("/api/documents", documentRoutes);
 
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
