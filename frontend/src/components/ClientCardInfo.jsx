@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ClientCardInfo = ({ clientId }) => {
+  const navigate = useNavigate();
   const [client, setClient] = useState(null);
 
   useEffect(() => {
@@ -54,6 +56,7 @@ const ClientCardInfo = ({ clientId }) => {
       <div className="flex flex-col items-end gap-4 mt-6 md:mt-0">
         <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-3 sm:space-y-0 w-full">
           <button
+            onClick={() => navigate(`/client/${client._id}/documents`)}
             className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 
                rounded-lg text-[15px] font-medium transition 
                w-full sm:w-auto sm:px-5 sm:py-2 sm:text-[14px] 

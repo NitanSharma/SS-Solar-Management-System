@@ -10,7 +10,7 @@ module.exports.getTaskbyClientId = async (req, res) => {
       return res.status(400).json({ message: "Client ID is required." });
     }
 
-    const tasks = await Task.find({ client: clientId }).sort({ createdAt: 1 });
+    const tasks = await Task.find({ client: clientId }).sort({ order:1});
 
     res.status(200).json({
       message: "Tasks fetched successfully!",

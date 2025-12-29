@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FiCalendar, FiEdit2, FiTrash2 } from "react-icons/fi";
-import AddDefaultTasksButton from "./AddDefaultTasksButton";
+
 
 const statusStyles = {
   Pending: "bg-gray-200 text-gray-700",
@@ -13,13 +13,8 @@ const statusStyles = {
 const ClientTableTask = ({ clientId }) => {
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
-  const [showDefaultBtn, setShowDefaultBtn] = useState(false);
   const [checkedTasks, setCheckedTasks] = useState({});
 
-  useEffect(() => {
-    const used = localStorage.getItem(`defaultTasksAdded_${clientId}`);
-    if (!used) setShowDefaultBtn(true);
-  }, [clientId]);
 
   useEffect(() => {
     const storedChecked =
@@ -52,10 +47,6 @@ const ClientTableTask = ({ clientId }) => {
     }
   };
 
-  const handleSuccessDefaultTasks = () => {
-    localStorage.setItem(`defaultTasksAdded_${clientId}`, "true");
-    setShowDefaultBtn(false);
-  };
 
   const handleCheckboxChange = (taskId) => {
     const updatedChecked = {
@@ -73,13 +64,6 @@ const ClientTableTask = ({ clientId }) => {
         <h2 className="text-xl font-semibold">Tasks</h2>
 
         <div className="flex gap-3">
-          {showDefaultBtn && (
-            <AddDefaultTasksButton
-              clientId={clientId}
-              onSuccess={handleSuccessDefaultTasks}
-            />
-          )}
-
           <button
             onClick={() => navigate(`/addTask?clientId=${clientId}`)}
             className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 rounded-lg text-[15px] font-medium transition 

@@ -6,6 +6,7 @@ import EditTaskForm from './pages/EditTaskForm';
 import AddTaskForm from './pages/AddTaskForm';
 import ClientDetailsPage from './pages/ClientDetailsPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ClientDocuments from './components/ClientDocument';
 
 const App = () => {
   return (
@@ -52,6 +53,11 @@ const App = () => {
               <EditTaskForm />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="/client/:clientId/documents"
+          element={<ClientDocuments />}
         />
     </Routes>
     </>

@@ -25,6 +25,9 @@ const taskSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    order: {
+    type: Number,
+  }
   },
   { timestamps: true }
 );

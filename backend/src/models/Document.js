@@ -9,6 +9,11 @@ const documentSchema = new mongoose.Schema({
   fileUrl: String,
   publicId: String,
   fileType: String,
+
+  originalName: {
+    type: String, 
+  },
+
   uploadedAt: {
     type: Date,
     default: Date.now,
