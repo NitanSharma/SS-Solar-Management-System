@@ -18,7 +18,6 @@ module.exports.login = async (req, res) => {
     // Check if any admin exists
     const adminCount = await Admin.countDocuments();
 
-    // FIRST TIME LOGIN → CREATE ADMIN
     if (adminCount === 0) {
       const newAdmin = new Admin({
         email,
@@ -33,27 +32,25 @@ module.exports.login = async (req, res) => {
       });
     }
 
-    // FIND ADMIN
     const admin = await Admin.findOne({ email });
 
     if (!admin) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // PASSWORD CHECK
     const isMatch = await bcrypt.compare(password, admin.password);
 
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // TOKEN
     const token = jwt.sign(
-      { id: admin._id, role: 'admin' },
+      { id: admin._id},
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
     // console.log(admin)
+    res.cookie('token', token);
     res.status(200).json({
       success: true,
       token,
@@ -68,3 +65,7 @@ module.exports.login = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+module.exports.getAdminVerify = async (req, res, next) => {  
+    res.status(200).json({admin: req.admin});
+}

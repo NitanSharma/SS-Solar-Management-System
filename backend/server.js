@@ -4,10 +4,11 @@ const cors = require('cors')
 dotenv.config();
 const app = express();
 const connecttoDb = require('./src/db/db')
-const authRoutes = require('./src/routes/auth');
+const authRoutes = require('./src/routes/auth.routes');
 const clientRoutes = require('./src/routes/client.routes');
 const taskRoutes = require('./src/routes/task.routes');
 const documentRoutes = require("./src/routes/documentRoutes");
+const cookieParser = require('cookie-parser');
 
 connecttoDb();
 // app.use(cors({
@@ -18,6 +19,7 @@ connecttoDb();
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use('/admin' , authRoutes);
 app.use('/client' , clientRoutes);

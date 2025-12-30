@@ -1,19 +1,18 @@
-import { Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage'
-import Dashboard from './pages/Dashboard';
-import AddClient from './pages/AddClient';
-import EditTaskForm from './pages/EditTaskForm';
-import AddTaskForm from './pages/AddTaskForm';
-import ClientDetailsPage from './pages/ClientDetailsPage';
-import ProtectedRoute from './components/ProtectedRoute';
-import ClientDocuments from './components/ClientDocument';
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/Dashboard";
+import AddClient from "./pages/AddClient";
+import EditTaskForm from "./pages/EditTaskForm";
+import AddTaskForm from "./pages/AddTaskForm";
+import ClientDetailsPage from "./pages/ClientDetailsPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ClientDocuments from "./components/ClientDocument";
 
 const App = () => {
   return (
     <>
-    
-    <Routes>
-      <Route path='/' element={<LoginPage/>} />
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
         <Route
           path="/dashboard"
           element={
@@ -59,9 +58,9 @@ const App = () => {
           path="/client/:clientId/documents"
           element={<ClientDocuments />}
         />
-    </Routes>
+      </Routes>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
