@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const ClientDocuments = () => {
   const { clientId } = useParams();
+  const fileInputRef = useRef(null);
 
   const [documents, setDocuments] = useState([]);
   const [files, setFiles] = useState([]);
@@ -16,7 +17,6 @@ const ClientDocuments = () => {
       const res = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/api/documents/${clientId}`
       );
-      console.log(res.data)
       setDocuments(res.data);
     } catch (err) {
       console.error(err);
@@ -26,7 +26,7 @@ const ClientDocuments = () => {
   };
 
   useEffect(() => {
-    fetchDocs();
+    if (clientId) fetchDocs();
   }, [clientId]);
 
   const uploadDocs = async () => {
@@ -37,17 +37,18 @@ const ClientDocuments = () => {
 
       const formData = new FormData();
       formData.append("clientId", clientId);
-
-      for (let file of files) {
-        formData.append("files", file);
-      }
+      files.forEach((file) => formData.append("files", file));
 
       await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/documents/upload`,
-        formData
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
 
       setFiles([]);
+      if (fileInputRef.current) fileInputRef.current.value = "";
       fetchDocs();
     } catch (err) {
       console.error(err);
@@ -57,83 +58,74 @@ const ClientDocuments = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl p-6 shadow">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-5">
-        <h2 className="text-lg font-semibold">Documents</h2>
+    <div className="bg-white rounded-xl p-4 sm:p-6 shadow">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5">
+        <h2 className="text-base sm:text-lg font-semibold">Documents</h2>
 
-        <label
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 
-          rounded-lg text-[15px] font-medium transition 
-          w-full sm:w-auto sm:px-5 sm:py-2 sm:text-[14px]"
-        >
+        <label className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer">
           Add Document
           <input
+            ref={fileInputRef}
             type="file"
             multiple
             hidden
             disabled={uploading}
-            onChange={(e) => setFiles(e.target.files)}
+            onChange={(e) => setFiles(Array.from(e.target.files || []))}
           />
         </label>
       </div>
 
-      {/* Upload Button */}
       {files.length > 0 && (
         <button
           onClick={uploadDocs}
           disabled={uploading}
-          className={`mb-4 text-white font-medium transition rounded-lg
-            px-6 py-2.5 w-full sm:w-auto
+          className={`mb-4 px-6 py-2.5 rounded-lg text-white font-medium
             ${
               uploading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600"
-            }
-          `}
+            }`}
         >
           {uploading ? "Uploading..." : "Upload Selected"}
         </button>
       )}
 
-      {/* Loading */}
       {loadingDocs && (
         <p className="text-center text-gray-500">Loading documents...</p>
       )}
 
-      {/* Documents */}
       {!loadingDocs && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {documents.map((doc) => (
-            <div
-              key={doc._id}
-              className="border rounded-lg p-3 bg-gray-50 hover:shadow-md transition"
-            >
-              <a href={doc.fileUrl} target="_blank" rel="noreferrer">
-                {doc.fileType?.startsWith("image") ? (
-                  <img
-                    src={doc.fileUrl}
-                    alt="document"
-                    className="w-full h-48 object-cover rounded"
-                  />
-                ) : doc.fileType === "application/pdf" ? (
-                  <iframe
-                    src={doc.fileUrl}
-                    className="w-full h-48 rounded"
-                    title="PDF Preview"
-                  />
-                ) : (
-                  <div className="h-48 flex items-center justify-center text-4xl">
-                    📄
-                  </div>
-                )}
-              </a>
+            <div key={doc._id} className="border rounded-lg p-3 bg-gray-50">
+              {doc.fileType?.startsWith("image") ? (
+                <img
+                  src={doc.fileUrl}
+                  alt="document"
+                  className="w-full h-48 object-cover rounded"
+                />
+              ) : doc.fileType === "application/pdf" ? (
+                <div className="h-48 flex flex-col items-center justify-center border bg-white">
+                  <span className="text-4xl">📄</span>
+                  <a
+                    href={doc.fileUrl.replace("/upload/", "/raw/upload/")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 text-sm text-blue-600 underline"
+                  >
+                    View PDF
+                  </a>
+                </div>
+              ) : (
+                <div className="h-48 flex items-center justify-center text-4xl">
+                  📄
+                </div>
+              )}
 
               <div className="mt-2">
                 <p className="text-sm font-medium truncate">
                   {doc.originalName || "Document"}
                 </p>
-
                 <p className="text-xs text-gray-500">
                   {new Date(doc.uploadedAt).toLocaleDateString()}
                 </p>

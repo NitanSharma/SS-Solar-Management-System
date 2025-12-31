@@ -8,8 +8,8 @@ const ClientDetailsPage = () => {
   const { clientId } = useParams();
 
   return (
-    <div className="min-h-screen bg-[#0B1623] px-8 py-6">
-      <div className="flex flex-col items-center py-10 px-4">
+    <div className="min-h-screen bg-[#0B1623] px-4 py-4">
+      <div className="flex flex-col items-center py-4 px-4">
         <div className="w-full max-w-6xl">
           {/* Client Info */}
           <ClientCardInfo clientId={clientId} />

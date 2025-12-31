@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 const AddTaskForm = () => {
   const [searchParams] = useSearchParams();
@@ -42,8 +41,7 @@ const AddTaskForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B1623] px-8 py-6">
-      <Navbar />
+    <div className="min-h-screen bg-[#0B1623] px-4 py-4">
       <div className="flex items-center justify-center px-4">
         <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md transition-all duration-300">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">

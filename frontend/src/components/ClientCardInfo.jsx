@@ -65,14 +65,14 @@ const ClientCardInfo = ({ clientId }) => {
             Add Document
           </button>
 
-          <button
+          {/* <button
             className="border border-blue-400 text-blue-600 px-6 py-2.5 
                rounded-lg text-[15px] font-medium hover:bg-blue-50 transition 
                w-full sm:w-auto sm:px-5 sm:py-2 sm:text-[14px] 
                xs:px-4 xs:py-2 xs:text-[13px]"
           >
             Set Reminder
-          </button>
+          </button> */}
         </div>
 
         <p className="text-[15px] text-gray-700 font-medium flex justify-between w-full md:w-auto">
