@@ -62,6 +62,10 @@ app.use('/client' , clientRoutes);
 app.use('/task' , taskRoutes);
 app.use("/api/documents", documentRoutes);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK", message: "Server is awake." });
+});
+
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
 })
