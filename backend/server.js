@@ -45,11 +45,13 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // CORS
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
-  methods: "GET,POST,PUT,DELETE",
-  credentials: true
-}));
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL || "http://localhost:5173",
+//   methods: "GET,POST,PUT,DELETE",
+//   credentials: true
+// }));
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
