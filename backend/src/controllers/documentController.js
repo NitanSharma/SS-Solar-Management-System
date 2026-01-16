@@ -15,6 +15,7 @@ exports.uploadDocuments = async (req, res) => {
         Document.create({
           clientId,
           fileUrl: file.path,
+          publicId: file.filename, // Cloudinary public_id
           fileType: file.mimetype,
           originalName: file.originalname,
         })

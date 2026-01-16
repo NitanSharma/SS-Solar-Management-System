@@ -7,12 +7,14 @@ import AddTaskForm from "./pages/AddTaskForm";
 import ClientDetailsPage from "./pages/ClientDetailsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ClientDocuments from "./components/ClientDocument";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 const App = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route
           path="/dashboard"
           element={

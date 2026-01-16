@@ -11,6 +11,7 @@ const statusStyles = {
 };
 
 const ClientTableTask = ({ clientId }) => {
+  const token = localStorage.getItem('token');
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
   const [checkedTasks, setCheckedTasks] = useState({});
@@ -26,7 +27,12 @@ const ClientTableTask = ({ clientId }) => {
     const fetchTasks = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/task/getTasks/${clientId}`
+          `${import.meta.env.VITE_BASE_URL}/task/getTasks/${clientId}`, 
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setTasks(res.data.tasks || []);
       } catch (error) {

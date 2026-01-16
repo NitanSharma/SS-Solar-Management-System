@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ClientCardInfo = ({ clientId }) => {
+  const token = localStorage.getItem('token')
   const navigate = useNavigate();
   const [client, setClient] = useState(null);
 
@@ -10,7 +11,12 @@ const ClientCardInfo = ({ clientId }) => {
     const fetchClient = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/client/getClient/${clientId}`
+          `${import.meta.env.VITE_BASE_URL}/client/getClient/${clientId}` , 
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setClient(res.data);
       } catch (error) {

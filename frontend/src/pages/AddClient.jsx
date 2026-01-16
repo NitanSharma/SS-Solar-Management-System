@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddClient = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   const [formData, setFormData] = useState({
     name: "",
@@ -38,7 +39,11 @@ const AddClient = () => {
       };
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/client/addClient`,
-        payload
+        payload , {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
       //   console.log(res);
       setMessage("✅ Client added successfully!");
@@ -53,7 +58,7 @@ const AddClient = () => {
       navigate("/dashboard");
     } catch (err) {
       setMessage(
-        "❌ Error adding client: " + (err.response?.data?.error || err.message)
+        "Error adding client: " + (err.response?.data?.error || err.message)
       );
     } finally {
       setLoading(false);

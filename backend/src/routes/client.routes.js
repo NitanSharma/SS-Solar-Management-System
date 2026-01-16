@@ -2,15 +2,17 @@ const express = require("express");
 const Client = require("../models/client.model");
 const { body } = require("express-validator");
 const clientController = require("../controllers/client.controller");
+const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-router.get("/clients", clientController.getClient);
+router.get("/clients", authMiddleware.authAdmin, clientController.getClient);
 
-router.get("/getClient/:clientId", clientController.getClientbyId);
+router.get("/getClient/:clientId", authMiddleware.authAdmin, clientController.getClientbyId);
 
 router.post(
   "/addClient",
+  authMiddleware.authAdmin,
   [
     body("name")
       .isString()
@@ -23,9 +25,7 @@ router.post(
       .withMessage("Invalid email address")
       .custom(async (email) => {
         // Check for unique email in the DB
-        const existingClient = await Client.findOne({
-          where: { email },
-        });
+        const existingClient = await Client.findOne({ email });
         if (existingClient) {
           throw new Error("Email already exists");
         }

@@ -22,7 +22,12 @@ const Dashboard = () => {
   const setFetchData = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/client/clients`
+        `${import.meta.env.VITE_BASE_URL}/client/clients`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (response.status === 200) {
         setData(response.data);

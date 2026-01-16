@@ -5,6 +5,7 @@ import axios from "axios";
 const ClientDocuments = () => {
   const { clientId } = useParams();
   const fileInputRef = useRef(null);
+  const token = localStorage.getItem("token");
 
   const [documents, setDocuments] = useState([]);
   const [files, setFiles] = useState([]);
@@ -15,7 +16,12 @@ const ClientDocuments = () => {
     try {
       setLoadingDocs(true);
       const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/api/documents/${clientId}`
+        `${import.meta.env.VITE_BASE_URL}/api/documents/${clientId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setDocuments(res.data);
     } catch (err) {
@@ -43,7 +49,10 @@ const ClientDocuments = () => {
         `${import.meta.env.VITE_BASE_URL}/api/documents/upload`,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 

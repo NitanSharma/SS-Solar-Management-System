@@ -12,6 +12,26 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  resetPin: {
+    type: String,
+    default: null,
+  },
+  resetPinExpires: {
+    type: Date,
+    default: null,
+  },
+  loginPin: {
+    type: String,
+    default: null,
+  },
+  loginPinExpires: {
+    type: Date,
+    default: null,
+  },
+  twoFactorEnabled: {
+    type: Boolean,
+    default: true, // Enable 2FA by default for admins
+  },
 });
 
 // Hash password before saving

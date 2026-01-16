@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children }) => {
       } catch (error) {
         console.log("Auth error:", error);
         localStorage.removeItem("token");
-        // navigate("/");
+        navigate("/");
       }
     };
 
