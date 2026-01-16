@@ -27,7 +27,6 @@ export default function LoginPage() {
     setError("");
     setSuccess("");
   };
-
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -73,7 +72,6 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
-
   const verifyPinHandler = async (e) => {
     e.preventDefault();
 
@@ -108,7 +106,6 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
-
   const handleCreateAdmin = () => {
     setShowCreateAdmin(true);
     setError("");
@@ -152,11 +149,10 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#0f2748]">
       <div className="bg-[#0b1c33] rounded-3xl flex flex-col md:flex-row overflow-hidden shadow-2xl max-w-4xl w-full">
         
-        {/* Left Illustration Section */}
+        {/* Left */}
         <div className="md:w-1/2 flex flex-col justify-center items-center text-white p-10 ">
-          <div className="flex gap-3 mb-8">
-            <Sun className="w-8 h-8" />
-            <h1 className="text-3xl font-bold tracking-wide">SS SOLAR</h1>
+          <div className="flex mb-2">
+            <img src="/companyLogo.png" alt="companyLogo" className="w-72 md:80" />
           </div>
           <img
             src="/LoginPanel.png"

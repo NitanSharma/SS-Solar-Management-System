@@ -25,30 +25,18 @@ const Navbar = () => {
       {/* Left Section */}
       <div className="flex items-center justify-between w-full md:w-auto">
         <div className="flex items-center space-x-2">
-          <Sun className="w-7 h-7" />
-          <h1 className="text-xl md:text-2xl font-semibold text-white">
-            SS SOLAR
-          </h1>
-          <span className="hidden sm:inline text-gray-400 tracking-wide font-bold text-lg md:text-xl ml-2">
-            MANAGEMENT SYSTEM
-          </span>
+          <img src="/companyLogo.png" alt="logo" className="text-center m-0 md:w-60" />
         </div>
-
-        {/* User icon visible on small screens */}
-        {/* <div className="flex md:hidden items-center space-x-2">
-          <FaUserCircle className="text-3xl text-gray-300" />
-        </div> */}
       </div>
 
       {/* Right Section */}
       <div className="flex items-center space-x-3 justify-end w-full md:w-auto">
         <button
           onClick={handleLogout}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+          className="hidden bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium md:block"
         >
           Logout
         </button>
-        <FaUserCircle className="hidden md:block text-3xl text-gray-300" />
       </div>
     </div>
   )
