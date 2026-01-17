@@ -1,7 +1,17 @@
 const mongoose = require('mongoose');
 
-function connecttoDb(){
-    mongoose.connect(process.env.DB_CONNECT).then(()=>{ console.log('Connect to DB'); }).catch(err => console.log(err))
-}
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.DB_CONNECT, {
+      maxPoolSize: 10, 
+      serverSelectionTimeoutMS: 5000,
+    });
 
-module.exports = connecttoDb;
+    console.log("MongoDB Connected with Pooling");
+  } catch (error) {
+    console.error("MongoDB connection error:", error.message);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;

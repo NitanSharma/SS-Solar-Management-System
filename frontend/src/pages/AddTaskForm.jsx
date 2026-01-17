@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 const AddTaskForm = () => {
   const [searchParams] = useSearchParams();
   const clientId = searchParams.get("clientId"); // get from query
+  const token = localStorage.getItem('token');
 
   const navigate = useNavigate();
 
@@ -27,7 +28,11 @@ const AddTaskForm = () => {
       console.log(payload);
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/task/addTask`,
-        payload
+        payload , {
+          headers : {
+            Authorization : `Bearer ${token}`
+          }
+        }
       );
       console.log(res.data)
       if (res.status === 201) {

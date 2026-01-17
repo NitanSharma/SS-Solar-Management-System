@@ -45,7 +45,12 @@ const ClientTableTask = ({ clientId }) => {
   const handleDelete = async (taskId) => {
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BASE_URL}/task/deleteTask/${taskId}`
+        `${import.meta.env.VITE_BASE_URL}/task/deleteTask/${taskId}` , 
+        {
+          headers : {
+            Authorization : `Bearer ${localStorage.getItem('token')}`
+          }
+        }
       );
       setTasks((prev) => prev.filter((t) => t._id !== taskId));
     } catch (error) {

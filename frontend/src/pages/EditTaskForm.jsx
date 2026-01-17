@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 const EditTaskForm = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   const [formData, setFormData] = useState({
     taskName: "",
@@ -18,7 +19,11 @@ const EditTaskForm = () => {
     const fetchTask = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/task/tasks/${taskId}`
+          `${import.meta.env.VITE_BASE_URL}/task/tasks/${taskId}` , {
+            headers : {
+              Authorization : `Bearer ${token}`
+            }
+          }
         );
         setFormData(res.data.task);
       } catch (error) {
@@ -39,7 +44,11 @@ const EditTaskForm = () => {
     try {
       await axios.put(
         `${import.meta.env.VITE_BASE_URL}/task/editTask/${taskId}`,
-        formData
+        formData , {
+          headers : {
+            Authorization : `Bearer ${localStorage.getItem('token')}`
+          }
+        }
       );
       navigate(-1);
     } catch (error) {

@@ -15,14 +15,14 @@ requiredEnvVars.forEach(varName => {
 });
 
 const app = express();
-const connecttoDb = require('./src/db/db')
+const connectDb = require('./src/db/db')
 const authRoutes = require('./src/routes/auth.routes');
 const clientRoutes = require('./src/routes/client.routes');
 const taskRoutes = require('./src/routes/task.routes');
 const documentRoutes = require("./src/routes/documentRoutes");
 const cookieParser = require('cookie-parser');
 
-connecttoDb();
+connectDb();
 
 // Security middleware
 app.use(helmet({
