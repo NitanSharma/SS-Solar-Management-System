@@ -4,141 +4,119 @@ import axios from "axios";
 
 const ClientDocuments = () => {
   const { clientId } = useParams();
-  const fileInputRef = useRef(null);
   const token = localStorage.getItem("token");
+  const fileRef = useRef(null);
 
   const [documents, setDocuments] = useState([]);
-  const [files, setFiles] = useState([]);
-  const [loadingDocs, setLoadingDocs] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
 
-  const fetchDocs = async () => {
+  const fetchDocuments = async () => {
     try {
-      setLoadingDocs(true);
-      const res = await axios.get(
+      setLoading(true);
+
+      const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/api/documents/${clientId}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setDocuments(res.data);
-    } catch (err) {
-      console.error(err);
+
+      setDocuments(response.data);
+    } catch (error) {
+      console.error("Fetch documents error:", error);
     } finally {
-      setLoadingDocs(false);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (clientId) fetchDocs();
+    if (clientId) fetchDocuments();
   }, [clientId]);
 
-  const uploadDocs = async () => {
-    if (!files.length || uploading) return;
+  const uploadDocuments = async () => {
+    if (!selectedFiles.length) return;
 
     try {
       setUploading(true);
 
       const formData = new FormData();
       formData.append("clientId", clientId);
-      files.forEach((file) => formData.append("files", file));
+
+      selectedFiles.forEach((file) =>
+        formData.append("files", file)
+      );
 
       await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/documents/upload`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      setFiles([]);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      fetchDocs();
-    } catch (err) {
-      console.error(err);
+      setSelectedFiles([]);
+      fileRef.current.value = "";
+      fetchDocuments();
+    } catch (error) {
+      console.error("Upload error:", error);
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <div className="bg-white rounded-xl p-4 sm:p-6 shadow">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5">
-        <h2 className="text-base sm:text-lg font-semibold">Documents</h2>
+    <div className="bg-white p-5 rounded-xl shadow">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="font-semibold">Documents</h2>
 
-        <label className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer">
+        <label className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
           Add Document
           <input
-            ref={fileInputRef}
+            ref={fileRef}
             type="file"
             multiple
             hidden
-            disabled={uploading}
-            onChange={(e) => setFiles(Array.from(e.target.files || []))}
+            onChange={(e) =>
+              setSelectedFiles([...e.target.files])
+            }
           />
         </label>
       </div>
 
-      {files.length > 0 && (
+      {selectedFiles.length > 0 && (
         <button
-          onClick={uploadDocs}
+          onClick={uploadDocuments}
           disabled={uploading}
-          className={`mb-4 px-6 py-2.5 rounded-lg text-white font-medium
-            ${
-              uploading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
-            }`}
+          className="mb-4 bg-blue-500 text-white px-5 py-2 rounded"
         >
-          {uploading ? "Uploading..." : "Upload Selected"}
+          {uploading ? "Uploading..." : "Upload"}
         </button>
       )}
 
-      {loadingDocs && (
-        <p className="text-center text-gray-500">Loading documents...</p>
-      )}
+      {loading && <p>Loading documents...</p>}
 
-      {!loadingDocs && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {!loading && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {documents.map((doc) => (
-            <div key={doc._id} className="border rounded-lg p-3 bg-gray-50">
-              {doc.fileType?.startsWith("image") ? (
-                <img
-                  src={doc.fileUrl}
-                  alt="document"
-                  className="w-full h-48 object-cover rounded"
-                />
-              ) : doc.fileType === "application/pdf" ? (
-                <div className="h-48 flex flex-col items-center justify-center border bg-white">
-                  <span className="text-4xl">📄</span>
-                  <a
-                    href={doc.fileUrl.replace("/upload/", "/raw/upload/")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 text-sm text-blue-600 underline"
-                  >
-                    View PDF
-                  </a>
-                </div>
-              ) : (
-                <div className="h-48 flex items-center justify-center text-4xl">
-                  📄
-                </div>
-              )}
+            <div key={doc._id} className="border p-3 rounded">
+              <p className="text-sm font-medium truncate">
+                {doc.originalName}
+              </p>
+              <p className="text-xs text-gray-500">
+                {new Date(doc.uploadedAt).toLocaleDateString()}
+              </p>
 
-              <div className="mt-2">
-                <p className="text-sm font-medium truncate">
-                  {doc.originalName || "Document"}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {new Date(doc.uploadedAt).toLocaleDateString()}
-                </p>
-              </div>
+              <a
+                href={doc.fileUrl}
+                target="_blank"
+                className="text-blue-600 text-sm underline"
+              >
+                View
+              </a>
             </div>
           ))}
         </div>
